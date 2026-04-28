@@ -27,33 +27,27 @@ get_header();
 	</div>
 </div>
 
-<div class="container mx-auto px-4 max-w-7xl py-12 md:py-16">
-	<div class="grid grid-cols-1 lg:grid-cols-3 gap-12 xl:gap-16">
+<?php get_template_part( 'template-parts/blog-wrapper' ); ?>
 		
-		<main id="primary" class="site-main lg:col-span-2">
-			<?php if ( have_posts() ) : ?>
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-					<?php
-					while ( have_posts() ) :
-						the_post();
-						get_template_part( 'template-parts/content', get_post_type() );
-					endwhile;
-					?>
-				</div>
+	<?php if ( have_posts() ) : ?>
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+			<?php
+			while ( have_posts() ) :
+				the_post();
+				get_template_part( 'template-parts/content', get_post_type() );
+			endwhile;
+			?>
+		</div>
 
-				<div class="mt-16">
-					<?php get_template_part( 'template-parts/pagination' ); ?>
-				</div>
+		<div class="mt-16">
+			<?php get_template_part( 'template-parts/pagination' ); ?>
+		</div>
 
-			<?php else : ?>
-				<?php get_template_part( 'template-parts/content', 'none' ); ?>
-			<?php endif; ?>
-		</main>
+	<?php else : ?>
+		<?php get_template_part( 'template-parts/content', 'none' ); ?>
+	<?php endif; ?>
 
-		<?php get_sidebar(); ?>
-
-	</div>
-</div>
+<?php get_template_part( 'template-parts/blog-wrapper-end' ); ?>
 
 <?php
 get_footer();

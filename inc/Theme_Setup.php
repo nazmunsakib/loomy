@@ -117,12 +117,12 @@ final class Theme_Setup {
 	public function register_sidebars(): void {
 		register_sidebar(
 			array(
-				'name'          => esc_html__( 'Loomy Sidebar', 'loomy' ),
-				'id'            => 'loomy-sidebar',
+				'name'          => esc_html__( 'Blog Sidebar', 'loomy' ),
+				'id'            => 'loomy-blog-sidebar',
 				'description'   => esc_html__( 'Main sidebar for blog and archive pages.', 'loomy' ),
-				'before_widget' => '<section id="%1$s" class="widget %2$s mb-10 last:mb-0">',
+				'before_widget' => '<section id="%1$s" class="widget %2$s mb-12 last:mb-0">',
 				'after_widget'  => '</section>',
-				'before_title'  => '<h2 class="widget-title text-sm font-bold uppercase tracking-widest text-gray-400 mb-4">',
+				'before_title'  => '<h2 class="widget-title text-sm font-bold uppercase tracking-widest text-gray-500 mb-6 flex items-center gap-2">',
 				'after_title'   => '</h2>',
 			)
 		);
