@@ -1,6 +1,6 @@
 <?php
 /**
- * The main template file
+ * The template for displaying archive pages
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
@@ -12,18 +12,13 @@ get_header();
 
 <div class="bg-white border-b border-gray-100 py-12 md:py-16">
 	<div class="container mx-auto px-4 max-w-7xl">
+		<div class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">
+			<?php esc_html_e( 'Browsing Archive', 'loomy' ); ?>
+		</div>
 		<h1 class="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">
-			<?php
-			if ( is_home() && ! is_front_page() ) {
-				single_post_title();
-			} else {
-				esc_html_e( 'Our Blog', 'loomy' );
-			}
-			?>
+			<?php the_archive_title(); ?>
 		</h1>
-		<p class="mt-4 text-lg text-gray-500 max-w-2xl">
-			<?php esc_html_e( 'Explore the latest insights, stories, and updates from the Loomy team.', 'loomy' ); ?>
-		</p>
+		<?php the_archive_description( '<p class="mt-4 text-lg text-gray-500 max-w-2xl">', '</p>' ); ?>
 	</div>
 </div>
 

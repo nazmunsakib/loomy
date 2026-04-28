@@ -1,8 +1,14 @@
 import { defineConfig } from 'vite';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import tailwindcss from '@tailwindcss/vite';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default defineConfig({
-  root: path.resolve(__dirname, 'assets'),
+  plugins: [tailwindcss()],
+  root: __dirname,
   build: {
     manifest: true,
     outDir: path.resolve(__dirname, 'dist'),
@@ -13,5 +19,13 @@ export default defineConfig({
         style: path.resolve(__dirname, 'assets/src/css/main.css')
       }
     }
-  }
+  },
+  server: {
+    port: 5173,
+    strictPort: true,
+    cors: true,
+    hmr: {
+      host: 'localhost',
+    },
+  },
 });
