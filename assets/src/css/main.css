@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
+@theme {
+  /* Colors */
+  --color-primary: var(--loomy-primary);
+  --color-secondary: var(--loomy-secondary);
+  --color-brand: var(--loomy-primary);
+  --color-site-bg: var(--loomy-bg);
+  --color-site-text: var(--loomy-text);
+
+  /* Typography */
+  --font-body: var(--loomy-font-body);
+  --font-heading: var(--loomy-font-heading);
+  --font-size-base: var(--loomy-base-size);
+  --line-height-base: var(--loomy-line-height);
+
+  /* Layout */
+  --spacing-header-max: var(--loomy-header-width);
+}
+
+
+
 @layer base {
   body:not(.elementor-editor-active):not(.wp-admin) {
     @apply antialiased text-gray-900;
