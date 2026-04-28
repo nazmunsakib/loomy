@@ -115,15 +115,32 @@ final class Theme_Setup {
 	 * @return void
 	 */
 	public function register_sidebars(): void {
+		$widget_args = array(
+			'before_widget' => '<section id="%1$s" class="widget %2$s bg-gray-50/50 backdrop-blur-sm rounded-xl border border-gray-100 p-6 mb-8 last:mb-0">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title text-sm font-bold uppercase tracking-widest text-gray-900 mb-6 flex items-center gap-2">',
+			'after_title'   => '</h2>',
+		);
+
 		register_sidebar(
-			array(
-				'name'          => esc_html__( 'Blog Sidebar', 'loomy' ),
-				'id'            => 'loomy-blog-sidebar',
-				'description'   => esc_html__( 'Main sidebar for blog and archive pages.', 'loomy' ),
-				'before_widget' => '<section id="%1$s" class="widget %2$s mb-12 last:mb-0">',
-				'after_widget'  => '</section>',
-				'before_title'  => '<h2 class="widget-title text-sm font-bold uppercase tracking-widest text-gray-500 mb-6 flex items-center gap-2">',
-				'after_title'   => '</h2>',
+			array_merge(
+				$widget_args,
+				array(
+					'name'        => esc_html__( 'Blog Sidebar', 'loomy' ),
+					'id'          => 'loomy-blog-sidebar',
+					'description' => esc_html__( 'Main sidebar for blog and archive pages.', 'loomy' ),
+				)
+			)
+		);
+
+		register_sidebar(
+			array_merge(
+				$widget_args,
+				array(
+					'name'        => esc_html__( 'Site Sidebar', 'loomy' ),
+					'id'          => 'loomy-site-sidebar',
+					'description' => esc_html__( 'Global sidebar for pages and secondary content.', 'loomy' ),
+				)
 			)
 		);
 	}

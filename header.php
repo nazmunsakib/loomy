@@ -8,8 +8,22 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<header id="masthead" class="site-header py-4 bg-white border-b border-gray-100 sticky top-0 z-50">
-	<div class="container mx-auto px-4 flex items-center justify-between">
+<?php
+$header_layout = get_theme_mod( 'loomy_header_layout', 'split' );
+$header_sticky = get_theme_mod( 'loomy_header_sticky', true );
+$header_class  = $header_sticky ? 'sticky top-0 z-50' : '';
+
+// Alignment classes based on layout.
+$container_class = 'container mx-auto px-4 flex items-center justify-between';
+if ( 'center' === $header_layout ) {
+	$container_class = 'container mx-auto px-4 flex flex-col items-center gap-6';
+} elseif ( 'left' === $header_layout ) {
+	$container_class = 'container mx-auto px-4 flex items-center gap-12';
+}
+?>
+
+<header id="masthead" class="site-header py-4 bg-white border-b border-gray-100 <?php echo esc_attr( $header_class ); ?>">
+	<div class="<?php echo esc_attr( $container_class ); ?>">
 		<div class="site-branding">
 			<?php if ( has_custom_logo() ) : ?>
 				<?php the_custom_logo(); ?>
@@ -20,7 +34,7 @@
 			<?php endif; ?>
 		</div>
 
-		<nav id="site-navigation" class="main-navigation hidden md:block">
+		<nav id="site-navigation" class="main-navigation hidden md:block <?php echo ( 'left' === $header_layout ) ? 'mr-auto' : ''; ?>">
 			<?php
 			wp_nav_menu(
 				array(

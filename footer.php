@@ -11,9 +11,24 @@
 
 ?>
 
+<?php
+$footer_cols      = get_theme_mod( 'loomy_footer_columns', '4' );
+$footer_copyright = get_theme_mod( 'loomy_footer_copyright', '' );
+
+// Column mapping.
+$grid_cols = 'lg:grid-cols-4';
+if ( '1' === $footer_cols ) {
+	$grid_cols = 'lg:grid-cols-1';
+} elseif ( '2' === $footer_cols ) {
+	$grid_cols = 'lg:grid-cols-2';
+} elseif ( '3' === $footer_cols ) {
+	$grid_cols = 'lg:grid-cols-3';
+}
+?>
+
 <footer id="colophon" class="site-footer bg-gray-900 text-gray-300 py-16">
 	<div class="container mx-auto px-4 max-w-7xl">
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+		<div class="grid grid-cols-1 md:grid-cols-2 <?php echo esc_attr( $grid_cols ); ?> gap-12">
 			<div class="footer-branding">
 				<h2 class="text-white text-2xl font-bold mb-6"><?php bloginfo( 'name' ); ?></h2>
 				<p class="text-sm leading-relaxed mb-6">
@@ -21,6 +36,7 @@
 				</p>
 			</div>
 
+			<?php if ( (int) $footer_cols >= 2 ) : ?>
 			<div class="footer-menu">
 				<h3 class="text-white text-sm font-bold uppercase tracking-widest mb-6"><?php esc_html_e( 'Quick Links', 'loomy' ); ?></h3>
 				<?php
@@ -34,7 +50,9 @@
 				);
 				?>
 			</div>
+			<?php endif; ?>
 
+			<?php if ( (int) $footer_cols >= 3 ) : ?>
 			<div class="footer-contact">
 				<h3 class="text-white text-sm font-bold uppercase tracking-widest mb-6"><?php esc_html_e( 'Contact Us', 'loomy' ); ?></h3>
 				<ul class="space-y-4 text-sm">
@@ -42,7 +60,9 @@
 					<li><?php esc_html_e( 'Support: 24/7 Available', 'loomy' ); ?></li>
 				</ul>
 			</div>
+			<?php endif; ?>
 
+			<?php if ( (int) $footer_cols >= 4 ) : ?>
 			<div class="footer-newsletter">
 				<h3 class="text-white text-sm font-bold uppercase tracking-widest mb-6"><?php esc_html_e( 'Stay Updated', 'loomy' ); ?></h3>
 				<p class="text-sm mb-4"><?php esc_html_e( 'Subscribe to our newsletter for the latest updates.', 'loomy' ); ?></p>
@@ -53,13 +73,17 @@
 					</button>
 				</form>
 			</div>
+			<?php endif; ?>
 		</div>
 
 		<div class="mt-16 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
-			<p>
-				&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. 
-				<?php esc_html_e( 'All rights reserved.', 'loomy' ); ?>
-			</p>
+			<div>
+				<?php if ( ! empty( $footer_copyright ) ) : ?>
+					<?php echo wp_kses_post( $footer_copyright ); ?>
+				<?php else : ?>
+					&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. <?php esc_html_e( 'All rights reserved.', 'loomy' ); ?>
+				<?php endif; ?>
+			</div>
 			<p>
 				<?php
 				printf(

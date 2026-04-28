@@ -30,7 +30,11 @@ get_header();
 <?php get_template_part( 'template-parts/blog-wrapper' ); ?>
 		
 	<?php if ( have_posts() ) : ?>
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+		<?php
+		$blog_style = get_theme_mod( 'loomy_blog_style', 'grid' );
+		$grid_class = ( 'grid' === $blog_style ) ? 'grid grid-cols-1 md:grid-cols-2 gap-8' : 'flex flex-col gap-12';
+		?>
+		<div class="<?php echo esc_attr( $grid_class ); ?>">
 			<?php
 			while ( have_posts() ) :
 				the_post();
