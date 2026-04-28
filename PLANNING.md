@@ -2,32 +2,32 @@
 *Status: 🟡 In Progress | Next Sprint: Foundation Setup | Target: WordPress.org*
 
 ## 🎯 Phase 0: Foundation & Repo Setup (Week 1)
-- [ ] Initialize repo with `.gitignore` (ignore `node_modules/`, `vendor/`, `assets/src/`, `vite.config.js`; ✅ KEEP `dist/` for SVN)
-- [ ] Create `composer.json` with PSR-4: `"Loomy\\": "inc/"` + `composer install`
-- [ ] Create `package.json` with exact versions: Vite 5, Tailwind 4, Alpine 3
-- [ ] Set up `vite.config.js`: entries, `manifest: true`, `outDir: 'dist'`, WordPress paths
-- [ ] Configure `tailwind.config.js`: `@source` scanning, `preflight: false`, typography plugin
-- [ ] Create `functions.php` + PSR-4 autoloader bootstrap (logic only via `inc/`)
-- [ ] Add `style.css` with WP header + `License: GPLv2 or later` + `License URI:`
-- [ ] Add `readme.txt` skeleton (WP.org standard format)
-- [ ] Add `screenshot.png` placeholder (1200x900 PNG, sRGB)
-- [ ] ✅ Compliance Gate: `functions.php` has zero logic, only `require`/`include`
+- [x] Initialize repo with `.gitignore` (ignore `node_modules/`, `vendor/`, `assets/src/`, `vite.config.js`; ✅ KEEP `dist/` for SVN)
+- [x] Create `composer.json` with PSR-4: `"Loomy\\": "inc/"` + `composer install`
+- [x] Create `package.json` with exact versions: Vite 5, Tailwind 4, Alpine 3
+- [x] Set up `vite.config.js`: entries, `manifest: true`, `outDir: 'dist'`, WordPress paths
+- [x] Configure `tailwind.config.js`: `@source` scanning, `preflight: false`, typography plugin
+- [x] Create `functions.php` + PSR-4 autoloader bootstrap (logic only via `inc/`)
+- [x] Add `style.css` with WP header + `License: GPLv2 or later` + `License URI:`
+- [x] Add `readme.txt` skeleton (WP.org standard format)
+- [x] Add `screenshot.png` placeholder (1200x900 PNG, sRGB)
+- [x] ✅ Compliance Gate: `functions.php` has zero logic, only `require`/`include`
 
 ## 🧱 Phase 1: Core Theme Setup (Week 2)
-- [ ] `inc/class-theme-setup.php`:
-  - [ ] Always-loaded supports: `title-tag`, `post-thumbnails`, `html5`, `align-wide`, `responsive-embeds`
+- [x] `inc/class-theme-setup.php`:
+  - [x] Always-loaded supports: `title-tag`, `post-thumbnails`, `html5`, `align-wide`, `responsive-embeds`
   - [ ] Conditional WC: `if (class_exists('WooCommerce')) add_theme_support('woocommerce' + gallery)`
   - [ ] Conditional Elementor: `if (defined('ELEMENTOR_PATH')) add_theme_support('elementor')`
-  - [ ] Register nav menus, image sizes, `wp_head()`/`wp_footer()` cleanup
-  - [ ] Set text domain: `load_theme_textdomain('loomy', get_theme_file_path('languages'))`
-- [ ] `inc/class-enqueue.php`:
-  - [ ] Vite manifest loader with `file_exists()` fallback for dev/prod
-  - [ ] Prefix all handles with `loomy-`
-  - [ ] Conditional asset loading: `is_woocommerce()`, `elementor-editor`, frontend-only
-  - [ ] Add `wp_script_add_data('loomy-scripts', 'strategy', 'defer')`
-- [ ] Create `assets/src/css/main.css` with `@tailwind` layers + scoped `@layer base`
-- [ ] Create `assets/src/js/main.js` with Alpine init + AJAX re-init hooks
-- [ ] ✅ Compliance Gate: Zero external URLs in enqueued assets. All paths use `get_theme_file_uri()`
+  - [x] Register nav menus, image sizes, `wp_head()`/`wp_footer()` cleanup
+  - [x] Set text domain: `load_theme_textdomain('loomy', get_theme_file_path('languages'))`
+- [x] `inc/class-enqueue.php`:
+  - [x] Vite manifest loader with `file_exists()` fallback for dev/prod
+  - [x] Prefix all handles with `loomy-`
+  - [x] Conditional asset loading: `is_woocommerce()`, `elementor-editor`, frontend-only
+  - [x] Add `wp_script_add_data('loomy-scripts', 'strategy', 'defer')`
+- [x] Create `assets/src/css/main.css` with `@tailwind` layers + scoped `@layer base`
+- [x] Create `assets/src/js/main.js` with Alpine init + AJAX re-init hooks
+- [x] ✅ Compliance Gate: Zero external URLs in enqueued assets. All paths use `get_theme_file_uri()`
 
 ## 🛒 Phase 2: WooCommerce Integration (Week 3)
 - [ ] Copy & customize minimal WC templates to `/woocommerce/`:

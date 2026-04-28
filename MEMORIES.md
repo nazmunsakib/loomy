@@ -1,5 +1,5 @@
 # 🧠 Project Memories — Loomy
-*Last updated: {{DATE}} | Stack: WP 6.5+ • PHP 8.2+ • Vite 5 • Tailwind 4 • Alpine.js 3 • WC 9.x • Elementor 3.20+ • Target: WordPress.org*
+*Last updated: 2026-04-29 | Stack: WP 6.5+ • PHP 8.2+ • Vite 5 • Tailwind 4 • Alpine.js 3 • WC 9.x • Elementor 3.20+ • Target: WordPress.org*
 
 ---
 
@@ -154,7 +154,23 @@ Customizer UI → get_theme_mod() → :root CSS vars → wp_add_inline_style() �
 
 Limit to 5-7 core settings (brand color, heading font, base font size)
 Output via wp_add_inline_style('loomy-style', $css) in wp_enqueue_scripts
-Map in tailwind.config.js: colors: { brand: 'var(--color-brand)' }
+Map in tailwind.config.js: colors: { brand: 'var(--loomy-primary)' }
+
+### Dynamic Search Interaction (Alpine.js)
+- **Pattern**: Localized Dropdown with Close Button
+- **Trigger**: `header.php` → `x-data="{ searchOpen: false }"`
+- **Interaction**: 
+    - Toggle via header icon (`@click="searchOpen = !searchOpen"`)
+    - Auto-close via click-away (`@click.away="searchOpen = false"`)
+    - Manual close via "X" button inside dropdown
+- **Visuals**: `backdrop-blur-md` for overlay (if used), `shadow-2xl` + `rounded-3xl` for dropdown.
+- **WP.org**: Uses `get_search_form()` for accessibility and hook compliance.
+
+### Modular Customizer Logic
+- **Pattern**: `inc/Customizer.php` using a static `register` method.
+- **Method**: `add_setting($manager, $id, $default, $sanitize, $section, $label, $control_type)`
+- **Native Sync**: Uses `WP_Customize_Color_Control` for brand colors to ensure native picker UI.
+- **Dynamic CSS Integration**: Customizer values → `Dynamic_CSS::get_theme_css()` → `:root` variables → `wp_add_inline_style()`.
 
 📜 WordPress.org Compliance Rules (NON-NEGOTIABLE)
 No External CDNs: All JS/CSS/fonts must be bundled locally in dist/ or fonts/. Zero https:// in enqueued URLs.
