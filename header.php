@@ -23,8 +23,9 @@ if ( 'center' === $header_layout ) {
 ?>
 
 <header id="masthead" class="site-header py-4 bg-white border-b border-gray-100 <?php echo esc_attr( $header_class ); ?>">
-	<div class="<?php echo esc_attr( $container_class ); ?>">
-		<div class="site-branding">
+	<div class="container">
+		<div class="flex items-center justify-between gap-6 <?php echo ( 'center' === $header_layout ) ? 'flex-col' : ''; ?>">
+			<div class="site-branding">
 			<?php if ( has_custom_logo() ) : ?>
 				<?php the_custom_logo(); ?>
 			<?php else : ?>
@@ -75,4 +76,5 @@ if ( 'center' === $header_layout ) {
 			</button>
 		</div>
 	</div>
+</div>
 </header>

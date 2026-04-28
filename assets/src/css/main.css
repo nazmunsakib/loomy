@@ -24,4 +24,31 @@
   body:not(.elementor-editor-active):not(.wp-admin) {
     @apply antialiased text-gray-900;
   }
+
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+  }
 }
+
+
+@layer utilities {
+  .back-to-top {
+    @apply fixed bottom-8 right-8 z-50 p-3 bg-white text-gray-900 rounded-full shadow-xl border border-gray-100 transition-all duration-300 hover:scale-110 active:scale-95;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *, ::before, ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+}
+

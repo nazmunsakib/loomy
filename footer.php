@@ -27,7 +27,7 @@ if ( '1' === $footer_cols ) {
 ?>
 
 <footer id="colophon" class="site-footer bg-gray-900 text-gray-300 py-16">
-	<div class="container mx-auto px-4 max-w-7xl">
+	<div class="container">
 		<div class="grid grid-cols-1 md:grid-cols-2 <?php echo esc_attr( $grid_cols ); ?> gap-12">
 			<div class="footer-branding">
 				<h2 class="text-white text-2xl font-bold mb-6"><?php bloginfo( 'name' ); ?></h2>

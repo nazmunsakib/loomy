@@ -42,8 +42,13 @@ final class Customizer {
 			'right' => esc_html__( 'Right', 'loomy' ),
 		) );
 
-		// 3. Footer Section.
-		$wp_customize->add_section( 'loomy_footer', array( 'title' => esc_html__( 'Footer', 'loomy' ), 'priority' => 50 ) );
+		// 4. Page Settings Section.
+		$wp_customize->add_section( 'loomy_pages', array( 'title' => esc_html__( 'Page Settings', 'loomy' ), 'priority' => 55 ) );
+		$this->add_setting( $wp_customize, 'loomy_page_spacing', 'py-12 md:py-20', 'sanitize_text_field', 'loomy_pages', esc_html__( 'Vertical Spacing (Tailwind classes)', 'loomy' ) );
+		$this->add_setting( $wp_customize, 'loomy_page_show_breadcrumbs', true, 'rest_sanitize_boolean', 'loomy_pages', esc_html__( 'Show Breadcrumbs', 'loomy' ), 'checkbox' );
+
+		// 5. Content & Footer Section.
+		$wp_customize->add_section( 'loomy_layout_footer', array( 'title' => esc_html__( 'Layout & Footer', 'loomy' ), 'priority' => 60 ) );
 		$this->add_setting( $wp_customize, 'loomy_footer_columns', '4', 'absint', 'loomy_footer', esc_html__( 'Footer Columns', 'loomy' ), 'select', array(
 			'1' => '1', '2' => '2', '3' => '3', '4' => '4'
 		) );
