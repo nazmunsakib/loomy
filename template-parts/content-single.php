@@ -13,7 +13,7 @@ $reading_time = \Loomy\Post_Helpers::get_reading_time( get_the_content() );
 	<!-- Hero Section -->
 	<header class="post-header mb-12">
 		<div class="flex items-center gap-4 mb-6">
-			<span class="bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+			<span class="bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">
 				<?php the_category( ', ' ); ?>
 			</span>
 			<span class="text-xs text-gray-400 font-medium flex items-center gap-1">
@@ -38,7 +38,7 @@ $reading_time = \Loomy\Post_Helpers::get_reading_time( get_the_content() );
 			<div class="flex items-center gap-2" x-data="{ copied: false }">
 				<button 
 					@click="if (navigator.clipboard) { navigator.clipboard.writeText(window.location.href); copied = true; setTimeout(() => copied = false, 2000) }"
-					class="p-2 text-gray-400 hover:text-blue-600 transition-colors relative"
+					class="p-2 text-gray-400 hover:text-primary transition-colors relative"
 					:class="copied ? 'text-green-500' : ''"
 					aria-label="<?php esc_attr_e( 'Copy link', 'loomy' ); ?>"
 				>
@@ -58,7 +58,7 @@ $reading_time = \Loomy\Post_Helpers::get_reading_time( get_the_content() );
 	</header>
 
 	<!-- Content Area -->
-	<div class="post-content prose prose-lg md:prose-xl max-w-none prose-headings:font-black prose-headings:text-gray-900 prose-a:text-blue-600 hover:prose-a:text-blue-700 prose-img:rounded-3xl prose-blockquote:border-l-4 prose-blockquote:border-blue-600 prose-blockquote:bg-blue-50/30 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:italic"
+	<div class="post-content prose prose-lg md:prose-xl max-w-none prose-headings:font-black prose-headings:text-gray-900 prose-a:text-primary hover:prose-a:opacity-80 prose-img:rounded-3xl prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-primary/5 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:italic"
 		 x-data>
 		<?php the_content(); ?>
 	</div>

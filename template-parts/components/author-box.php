@@ -13,7 +13,7 @@
 	</div>
 	
 	<div class="flex-grow text-center md:text-left">
-		<span class="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2 block">
+		<span class="text-xs font-bold uppercase tracking-widest text-secondary mb-2 block">
 			<?php esc_html_e( 'About the Author', 'loomy' ); ?>
 		</span>
 		<h3 class="text-2xl font-bold text-gray-900 mb-4">
@@ -24,7 +24,7 @@
 		</p>
 		
 		<div class="flex flex-wrap items-center justify-center md:justify-start gap-4">
-			<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" class="text-sm font-bold text-gray-900 hover:text-blue-600 transition-colors flex items-center gap-2 group">
+			<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" class="text-sm font-bold text-gray-900 hover:text-primary transition-colors flex items-center gap-2 group">
 				<?php esc_html_e( 'View all posts', 'loomy' ); ?>
 				<?php echo loomy_icon( 'arrow-right', 'h-4 w-4 transform group-hover:translate-x-1 transition-transform' ); ?>
 			</a>

@@ -34,6 +34,17 @@ if ( '1' === $footer_cols ) {
 				<p class="text-sm leading-relaxed mb-6">
 					<?php bloginfo( 'description' ); ?>
 				</p>
+				<div class="flex items-center gap-4">
+					<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 text-gray-400 hover:bg-secondary hover:text-white transition-all">
+						<?php echo loomy_icon( 'facebook', 'h-4 w-4' ); ?>
+					</a>
+					<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 text-gray-400 hover:bg-secondary hover:text-white transition-all">
+						<?php echo loomy_icon( 'twitter', 'h-4 w-4' ); ?>
+					</a>
+					<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 text-gray-400 hover:bg-secondary hover:text-white transition-all">
+						<?php echo loomy_icon( 'instagram', 'h-4 w-4' ); ?>
+					</a>
+				</div>
 			</div>
 
 			<?php if ( (int) $footer_cols >= 2 ) : ?>
@@ -67,8 +78,8 @@ if ( '1' === $footer_cols ) {
 				<h3 class="text-white text-sm font-bold uppercase tracking-widest mb-6"><?php esc_html_e( 'Stay Updated', 'loomy' ); ?></h3>
 				<p class="text-sm mb-4"><?php esc_html_e( 'Subscribe to our newsletter for the latest updates.', 'loomy' ); ?></p>
 				<form class="flex">
-					<input type="email" placeholder="<?php esc_attr_e( 'Your email', 'loomy' ); ?>" class="bg-gray-800 border-none rounded-l-lg px-4 py-2 text-sm w-full focus:ring-1 focus:ring-blue-600">
-					<button class="bg-blue-600 text-white px-4 py-2 rounded-r-lg text-sm font-bold hover:bg-blue-700 transition-colors">
+					<input type="email" placeholder="<?php esc_attr_e( 'Your email', 'loomy' ); ?>" class="bg-gray-800 border-none rounded-l-lg px-4 py-2 text-sm w-full focus:ring-1 focus:ring-primary">
+					<button class="bg-secondary text-white px-4 py-2 rounded-r-lg text-sm font-bold hover:brightness-110 transition-all">
 						<?php esc_html_e( 'Join', 'loomy' ); ?>
 					</button>
 				</form>
@@ -89,7 +100,7 @@ if ( '1' === $footer_cols ) {
 				printf(
 					/* translators: 1: Name 2: URL */
 					esc_html__( 'Designed by %1$s', 'loomy' ),
-					'<a href="https://github.com/nazmunsakib" class="text-white hover:underline">Nazmun Sakib</a>'
+					'<a href="https://github.com/nazmunsakib" class="text-primary hover:underline">Nazmun Sakib</a>'
 				);
 				?>
 			</p>

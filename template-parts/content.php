@@ -35,7 +35,7 @@
 				<time datetime="<?php echo get_the_date( 'c' ); ?>"><?php echo get_the_date(); ?></time>
 			</div>
 			
-			<h2 class="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors leading-tight">
+			<h2 class="text-2xl font-bold text-gray-900 group-hover:text-primary transition-colors leading-tight">
 				<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 			</h2>
 		</header>
@@ -49,7 +49,7 @@
 				<?php echo get_avatar( get_the_author_meta( 'ID' ), 32, '', '', array( 'class' => 'rounded-full border border-gray-100' ) ); ?>
 				<span class="text-sm font-medium text-gray-700"><?php the_author(); ?></span>
 			</div>
-			<a href="<?php the_permalink(); ?>" class="text-sm font-bold text-gray-900 hover:text-blue-600 flex items-center gap-1 group/link transition-colors">
+			<a href="<?php the_permalink(); ?>" class="text-sm font-bold text-gray-900 hover:text-primary flex items-center gap-1 group/link transition-colors">
 				<?php esc_html_e( 'Read More', 'loomy' ); ?>
 				<?php echo loomy_icon( 'arrow-right', 'h-4 w-4 transform group-hover/link:translate-x-1 transition-transform' ); ?>
 			</a>

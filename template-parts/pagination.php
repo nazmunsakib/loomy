@@ -26,14 +26,14 @@ if ( ! $pagination ) {
 		if ( strpos( $link, 'current' ) !== false ) {
 			echo str_replace(
 				array( 'page-numbers current', 'aria-current="page"' ),
-				array( 'bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md shadow-blue-100', 'aria-current="page"' ),
+				array( 'bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md shadow-primary/10', 'aria-current="page"' ),
 				$link
 			);
 		} else {
 			// Normal links.
 			echo str_replace(
 				'page-numbers',
-				'bg-white border border-gray-100 text-gray-700 hover:border-blue-600 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-sm',
+				'bg-white border border-gray-100 text-gray-700 hover:border-primary hover:text-primary px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-sm',
 				$link
 			);
 		}
@@ -60,7 +60,7 @@ if ( ! $pagination ) {
 		x-transition:leave-start="opacity-100 translate-y-0"
 		x-transition:leave-end="opacity-0 translate-y-10"
 		@click="scrollToTop()"
-		class="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100"
+		class="bg-secondary text-white p-3 rounded-full shadow-lg hover:brightness-110 hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-secondary/10"
 		aria-label="<?php esc_attr_e( 'Scroll to top', 'loomy' ); ?>">
 		
 		<?php echo loomy_icon( 'arrow-up', 'h-6 w-6' ); ?>

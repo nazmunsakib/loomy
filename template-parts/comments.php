@@ -66,7 +66,7 @@ if ( post_password_required() ) {
 			'comment_field'      => '
 				<div class="comment-form-comment">
 					<label for="comment" class="block text-sm font-medium text-gray-700 mb-2">' . esc_html__( 'Comment', 'loomy' ) . '</label>
-					<textarea id="comment" name="comment" cols="45" rows="5" class="w-full bg-white border border-gray-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none" required></textarea>
+					<textarea id="comment" name="comment" cols="45" rows="5" class="w-full bg-white border border-gray-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" required></textarea>
 				</div>',
 			'submit_button'      => '
 				<button 
@@ -75,7 +75,7 @@ if ( post_password_required() ) {
 					id="%2$s" 
 					@click="loading = true"
 					:disabled="loading"
-					class="relative bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-md shadow-blue-100 disabled:opacity-70 disabled:cursor-not-allowed group"
+					class="relative bg-primary text-white px-8 py-3 rounded-xl font-bold hover:brightness-110 transition-all shadow-md shadow-primary/10 disabled:opacity-70 disabled:cursor-not-allowed group"
 				>
 					<span :class="loading ? \'opacity-0\' : \'\'">%4$s</span>
 					<div x-show="loading" class="absolute inset-0 flex items-center justify-center">
@@ -86,12 +86,12 @@ if ( post_password_required() ) {
 				'author' => '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 					<div class="comment-form-author">
 						<label for="author" class="block text-sm font-medium text-gray-700 mb-2">' . esc_html__( 'Name', 'loomy' ) . '</label>
-						<input id="author" name="author" type="text" class="w-full bg-white border border-gray-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none" required>
+						<input id="author" name="author" type="text" class="w-full bg-white border border-gray-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" required>
 					</div>',
 				'email'  => '
 					<div class="comment-form-email">
 						<label for="email" class="block text-sm font-medium text-gray-700 mb-2">' . esc_html__( 'Email', 'loomy' ) . '</label>
-						<input id="email" name="email" type="email" class="w-full bg-white border border-gray-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none" required>
+						<input id="email" name="email" type="email" class="w-full bg-white border border-gray-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" required>
 					</div>
 				</div>',
 			),

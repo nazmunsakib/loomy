@@ -15,7 +15,7 @@ get_header();
 		<h1 class="text-4xl md:text-5xl font-black text-gray-900 tracking-tight mb-6">
 			<?php
 			/* translators: %s: search query. */
-			printf( esc_html__( 'Search Results for: %s', 'loomy' ), '<span class="text-blue-600">&ldquo;' . get_search_query() . '&rdquo;</span>' );
+			printf( esc_html__( 'Search Results for: %s', 'loomy' ), '<span class="text-primary">&ldquo;' . get_search_query() . '&rdquo;</span>' );
 			?>
 		</h1>
 		<div class="max-w-xl mx-auto mt-8">

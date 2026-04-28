@@ -36,7 +36,7 @@ if ( empty( $headings ) ) {
 				<a 
 					href="#<?php echo esc_attr( $heading['id'] ); ?>" 
 					class="text-sm transition-all duration-200 block py-1"
-					:class="activeId === '<?php echo esc_attr( $heading['id'] ); ?>' ? 'text-blue-600 font-bold translate-x-1' : 'text-gray-500 hover:text-gray-900'"
+					:class="activeId === '<?php echo esc_attr( $heading['id'] ); ?>' ? 'text-primary font-bold translate-x-1' : 'text-gray-500 hover:text-gray-900'"
 					@click.prevent="window.scrollTo({ top: document.getElementById('<?php echo esc_attr( $heading['id'] ); ?>').offsetTop - 100, behavior: 'smooth' })"
 				>
 					<?php echo esc_html( $heading['text'] ); ?>
