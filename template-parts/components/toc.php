@@ -1,0 +1,59 @@
+<?php
+/**
+ * Component: Table of Contents
+ *
+ * @package Loomy
+ */
+
+$headings = \Loomy\Post_Helpers::get_toc_headings( get_the_content() );
+
+if ( empty( $headings ) ) {
+	return;
+}
+?>
+
+<nav 
+	x-data="{ 
+		open: true,
+		activeId: '',
+		init() {
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						this.activeId = entry.target.id;
+					}
+				});
+			}, { rootMargin: '0px 0px -80% 0px' });
+
+			document.querySelectorAll('h2[id], h3[id]').forEach(h => observer.observe(h));
+		}
+	}"
+	class="toc-container bg-gray-50/50 backdrop-blur-sm rounded-xl border border-gray-100 p-6 sticky top-24"
+	aria-label="<?php esc_attr_e( 'Table of Contents', 'loomy' ); ?>"
+>
+	<div class="flex items-center justify-between mb-4">
+		<h3 class="text-sm font-bold uppercase tracking-widest text-gray-900">
+			<?php esc_html_e( 'On This Page', 'loomy' ); ?>
+		</h3>
+		<button @click="open = !open" class="lg:hidden text-gray-500">
+			<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform" :class="open ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+			</svg>
+		</button>
+	</div>
+
+	<ul x-show="open" x-collapse class="space-y-3">
+		<?php foreach ( $headings as $heading ) : ?>
+			<li class="<?php echo $heading['level'] === 3 ? 'ml-4' : ''; ?>">
+				<a 
+					href="#<?php echo esc_attr( $heading['id'] ); ?>" 
+					class="text-sm transition-all duration-200 block py-1"
+					:class="activeId === '<?php echo esc_attr( $heading['id'] ); ?>' ? 'text-blue-600 font-bold translate-x-1' : 'text-gray-500 hover:text-gray-900'"
+					@click.prevent="window.scrollTo({ top: document.getElementById('<?php echo esc_attr( $heading['id'] ); ?>').offsetTop - 100, behavior: 'smooth' })"
+				>
+					<?php echo esc_html( $heading['text'] ); ?>
+				</a>
+			</li>
+		<?php endforeach; ?>
+	</ul>
+</nav>

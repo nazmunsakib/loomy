@@ -28,6 +28,7 @@ final class Theme_Setup {
 		add_action( 'after_setup_theme', array( $this, 'register_image_sizes' ) );
 		add_action( 'init', array( $this, 'cleanup_head' ) );
 		add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
+		add_filter( 'the_content', array( '\Loomy\Post_Helpers', 'add_ids_to_headings' ) );
 	}
 
 	/**
