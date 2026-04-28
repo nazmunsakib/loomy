@@ -55,7 +55,7 @@ final class Customizer {
 		$this->add_setting( $wp_customize, 'loomy_footer_copyright', '', 'wp_kses_post', 'loomy_footer', esc_html__( 'Copyright Text', 'loomy' ), 'textarea' );
 	}
 
-	private function add_setting( $wp, $id, $default, $sanitize, $section, $label, $type, $choices = array() ) {
+	private function add_setting( $wp, $id, $default, $sanitize, $section, $label, $type = 'text', $choices = array() ) {
 		$wp->add_setting( $id, array( 'default' => $default, 'sanitize_callback' => $sanitize, 'transport' => 'refresh' ) );
 		$wp->add_control( $id, array( 'label' => $label, 'section' => $section, 'type' => $type, 'choices' => $choices ) );
 	}
