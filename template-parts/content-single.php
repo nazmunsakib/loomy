@@ -17,9 +17,7 @@ $reading_time = \Loomy\Post_Helpers::get_reading_time( get_the_content() );
 				<?php the_category( ', ' ); ?>
 			</span>
 			<span class="text-xs text-gray-400 font-medium flex items-center gap-1">
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-				</svg>
+				<?php echo loomy_icon( 'clock', 'h-3 w-3' ); ?>
 				<?php printf( esc_html__( '%d min read', 'loomy' ), $reading_time ); ?>
 			</span>
 		</div>
@@ -44,9 +42,7 @@ $reading_time = \Loomy\Post_Helpers::get_reading_time( get_the_content() );
 					:class="copied ? 'text-green-500' : ''"
 					aria-label="<?php esc_attr_e( 'Copy link', 'loomy' ); ?>"
 				>
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 012-2v-8a2 2 0 01-2-2h-8a2 2 0 01-2 2v8a2 2 0 012 2z" />
-					</svg>
+					<?php echo loomy_icon( 'copy', 'h-5 w-5' ); ?>
 					<span x-show="copied" x-transition class="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded whitespace-nowrap">
 						<?php esc_html_e( 'Link Copied!', 'loomy' ); ?>
 					</span>

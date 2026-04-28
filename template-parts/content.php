@@ -51,9 +51,7 @@
 			</div>
 			<a href="<?php the_permalink(); ?>" class="text-sm font-bold text-gray-900 hover:text-blue-600 flex items-center gap-1 group/link transition-colors">
 				<?php esc_html_e( 'Read More', 'loomy' ); ?>
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-				</svg>
+				<?php echo loomy_icon( 'arrow-right', 'h-4 w-4 transform group-hover/link:translate-x-1 transition-transform' ); ?>
 			</a>
 		</footer>
 	</div>

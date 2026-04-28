@@ -9,8 +9,8 @@ $pagination = paginate_links(
 	array(
 		'type'      => 'array',
 		'prev_next' => true,
-		'prev_text' => '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>',
-		'next_text' => '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>',
+		'prev_text' => loomy_icon( 'chevron-left', 'h-5 w-5' ),
+		'next_text' => loomy_icon( 'chevron-right', 'h-5 w-5' ),
 	)
 );
 
@@ -63,8 +63,6 @@ if ( ! $pagination ) {
 		class="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100"
 		aria-label="<?php esc_attr_e( 'Scroll to top', 'loomy' ); ?>">
 		
-		<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-		</svg>
+		<?php echo loomy_icon( 'arrow-up', 'h-6 w-6' ); ?>
 	</button>
 </div>

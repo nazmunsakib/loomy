@@ -33,12 +33,18 @@
 			?>
 		</nav>
 
-		<div class="header-actions flex items-center space-x-6">
+		<div class="header-actions flex items-center space-x-5">
+			<button class="text-gray-600 hover:text-blue-600 transition-colors" aria-label="<?php esc_attr_e( 'Search', 'loomy' ); ?>">
+				<?php echo loomy_icon( 'search', 'h-5 w-5' ); ?>
+			</button>
+
+			<a href="<?php echo esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ); ?>" class="text-gray-600 hover:text-blue-600 transition-colors" title="<?php esc_attr_e( 'My Account', 'loomy' ); ?>">
+				<?php echo loomy_icon( 'user', 'h-5 w-5' ); ?>
+			</a>
+
 			<?php if ( class_exists( 'WooCommerce' ) ) : ?>
 				<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="relative group" title="<?php esc_attr_e( 'View your shopping cart', 'loomy' ); ?>">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 group-hover:text-gray-900 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-					</svg>
+					<?php echo loomy_icon( 'cart', 'h-6 w-6 text-gray-600 group-hover:text-blue-600 transition-colors' ); ?>
 					<?php
 					$cart_count = WC()->cart->get_cart_contents_count();
 					if ( $cart_count > 0 ) :
@@ -51,9 +57,7 @@
 			<?php endif; ?>
 			
 			<button class="md:hidden text-gray-600 hover:text-gray-900 transition-colors" aria-label="<?php esc_attr_e( 'Toggle navigation', 'loomy' ); ?>">
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-				</svg>
+				<?php echo loomy_icon( 'menu', 'h-6 w-6' ); ?>
 			</button>
 		</div>
 	</div>
