@@ -36,16 +36,8 @@ get_header();
 					?>
 				</div>
 
-				<div class="mt-16 pt-8 border-t border-gray-100">
-					<?php
-					the_posts_pagination(
-						array(
-							'mid_size'  => 2,
-							'prev_text' => '<span class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg> ' . esc_html__( 'Previous', 'loomy' ) . '</span>',
-							'next_text' => '<span class="flex items-center gap-2">' . esc_html__( 'Next', 'loomy' ) . ' <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></span>',
-						)
-					);
-					?>
+				<div class="mt-16">
+					<?php get_template_part( 'template-parts/pagination' ); ?>
 				</div>
 
 			<?php else : ?>
