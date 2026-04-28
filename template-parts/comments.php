@@ -10,7 +10,7 @@ if ( post_password_required() ) {
 }
 ?>
 
-<section id="comments" class="comments-area mt-16 pt-16 border-t border-gray-100">
+<section id="comments" class="comments-area mt-16 pt-16 border-t border-gray-100" x-data="{ loading: false, success: false }">
 	<?php if ( have_comments() ) : ?>
 		<h3 class="text-2xl font-bold text-gray-900 mb-10">
 			<?php
@@ -34,19 +34,29 @@ if ( post_password_required() ) {
 					'style'      => 'ol',
 					'short_ping' => true,
 					'avatar_size' => 48,
-					'callback'   => null, // WP default or custom callback.
 				)
 			);
 			?>
 		</ol>
 
 		<?php the_comments_navigation(); ?>
-
 	<?php endif; ?>
 
 	<?php if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ) : ?>
 		<p class="no-comments text-gray-500 italic"><?php esc_html_e( 'Comments are closed.', 'loomy' ); ?></p>
 	<?php endif; ?>
+
+	<!-- Success Toast -->
+	<div 
+		x-show="success" 
+		x-transition
+		class="fixed bottom-8 left-8 bg-green-600 text-white px-6 py-3 rounded-xl shadow-lg z-50 flex items-center gap-3"
+	>
+		<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+		</svg>
+		<?php esc_html_e( 'Comment submitted for moderation!', 'loomy' ); ?>
+	</div>
 
 	<?php
 	comment_form(
@@ -55,11 +65,40 @@ if ( post_password_required() ) {
 			'title_reply'        => esc_html__( 'Leave a Reply', 'loomy' ),
 			'title_reply_to'     => esc_html__( 'Reply to %s', 'loomy' ),
 			'comment_notes_before' => '',
-			'comment_field'      => '<div class="comment-form-comment"><label for="comment" class="block text-sm font-medium text-gray-700 mb-2">' . esc_html__( 'Comment', 'loomy' ) . '</label><textarea id="comment" name="comment" cols="45" rows="5" class="w-full bg-white border border-gray-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none" required></textarea></div>',
-			'submit_button'      => '<button name="%1$s" type="submit" id="%2$s" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-md shadow-blue-100">%4$s</button>',
+			'comment_field'      => '
+				<div class="comment-form-comment">
+					<label for="comment" class="block text-sm font-medium text-gray-700 mb-2">' . esc_html__( 'Comment', 'loomy' ) . '</label>
+					<textarea id="comment" name="comment" cols="45" rows="5" class="w-full bg-white border border-gray-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none" required></textarea>
+				</div>',
+			'submit_button'      => '
+				<button 
+					name="%1$s" 
+					type="submit" 
+					id="%2$s" 
+					@click="loading = true"
+					:disabled="loading"
+					class="relative bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-md shadow-blue-100 disabled:opacity-70 disabled:cursor-not-allowed group"
+				>
+					<span :class="loading ? \'opacity-0\' : \'\'">%4$s</span>
+					<div x-show="loading" class="absolute inset-0 flex items-center justify-center">
+						<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+							<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+							<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+						</svg>
+					</div>
+				</button>',
 			'fields'             => array(
-				'author' => '<div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="comment-form-author"><label for="author" class="block text-sm font-medium text-gray-700 mb-2">' . esc_html__( 'Name', 'loomy' ) . '</label><input id="author" name="author" type="text" class="w-full bg-white border border-gray-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none" required></div>',
-				'email'  => '<div class="comment-form-email"><label for="email" class="block text-sm font-medium text-gray-700 mb-2">' . esc_html__( 'Email', 'loomy' ) . '</label><input id="email" name="email" type="email" class="w-full bg-white border border-gray-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none" required></div></div>',
+				'author' => '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+					<div class="comment-form-author">
+						<label for="author" class="block text-sm font-medium text-gray-700 mb-2">' . esc_html__( 'Name', 'loomy' ) . '</label>
+						<input id="author" name="author" type="text" class="w-full bg-white border border-gray-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none" required>
+					</div>',
+				'email'  => '
+					<div class="comment-form-email">
+						<label for="email" class="block text-sm font-medium text-gray-700 mb-2">' . esc_html__( 'Email', 'loomy' ) . '</label>
+						<input id="email" name="email" type="email" class="w-full bg-white border border-gray-100 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none" required>
+					</div>
+				</div>',
 			),
 		)
 	);

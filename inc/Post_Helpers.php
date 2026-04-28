@@ -69,7 +69,7 @@ final class Post_Helpers {
 			function ( $matches ) {
 				$text = strip_tags( $matches[3] );
 				$id   = sanitize_title( $text );
-				return "<h{$matches[1]}{$matches[2]} id=\"{$id}\">{$matches[3]}</h{$matches[1]}>";
+				return "<h{$matches[1]}{$matches[2]} id=\"{$id}\" x-intersect:enter=\"$dispatch('toc-active', '{$id}')\">{$matches[3]}</h{$matches[1]}>";
 			},
 			$content
 		);

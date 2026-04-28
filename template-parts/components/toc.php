@@ -1,6 +1,6 @@
 <?php
 /**
- * Component: Table of Contents
+ * Component: Table of Contents (Alpine Intersect Version)
  *
  * @package Loomy
  */
@@ -16,18 +16,8 @@ if ( empty( $headings ) ) {
 	x-data="{ 
 		open: true,
 		activeId: '',
-		init() {
-			const observer = new IntersectionObserver((entries) => {
-				entries.forEach(entry => {
-					if (entry.isIntersecting) {
-						this.activeId = entry.target.id;
-					}
-				});
-			}, { rootMargin: '0px 0px -80% 0px' });
-
-			document.querySelectorAll('h2[id], h3[id]').forEach(h => observer.observe(h));
-		}
 	}"
+	@toc-active.window="activeId = $event.detail"
 	class="toc-container bg-gray-50/50 backdrop-blur-sm rounded-xl border border-gray-100 p-6 sticky top-24"
 	aria-label="<?php esc_attr_e( 'Table of Contents', 'loomy' ); ?>"
 >
