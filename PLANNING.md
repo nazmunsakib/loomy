@@ -2,9 +2,9 @@
 *Status: 🟡 In Progress | Next Sprint: Foundation Setup | Target: WordPress.org*
 
 ## 🎯 Phase 0: Foundation & Repo Setup (Week 1)
-- [x] Initialize repo with `.gitignore` (ignore `node_modules/`, `vendor/`, `assets/src/`, `vite.config.js`; ✅ KEEP `dist/` for SVN)
+- [x] Initialize repo with `.gitignore` (ignore `node_modules/`, `vendor/`, `assets/src/`, `blocks/*/src/`, `vite.config.js`; ✅ KEEP `dist/` and `blocks/*/build/` for SVN)
 - [x] Create `composer.json` with PSR-4: `"Loomy\\": "inc/"` + `composer install`
-- [x] Create `package.json` with exact versions: Vite 5, Tailwind 4, Alpine 3
+- [x] Create `package.json` with exact versions: Vite 5, Tailwind 4, Vanilla ES6+ (No Alpine), @wordpress/scripts 28+
 - [x] Set up `vite.config.js`: entries, `manifest: true`, `outDir: 'dist'`, WordPress paths
 - [x] Configure `tailwind.config.js`: `@source` scanning, `preflight: false`, typography plugin
 - [x] Create `functions.php` + PSR-4 autoloader bootstrap (logic only via `inc/`)
@@ -26,7 +26,7 @@
   - [x] Conditional asset loading: `is_woocommerce()`, `elementor-editor`, frontend-only
   - [x] Add `wp_script_add_data('loomy-scripts', 'strategy', 'defer')`
 - [x] Create `assets/src/css/main.css` with `@tailwind` layers + scoped `@layer base`
-- [x] Create `assets/src/js/main.js` with Alpine init + AJAX re-init hooks
+- [x] Create `assets/src/js/main.js` with Vanilla Event Delegation + modules
 - [x] ✅ Compliance Gate: Zero external URLs in enqueued assets. All paths use `get_theme_file_uri()`
 
 ## 🛒 Phase 2: WooCommerce Integration (Week 3)
@@ -39,9 +39,8 @@
   - [ ] Remove default WC styles/scripts if replaced by Tailwind
   - [ ] Add custom hooks for product badges, pricing, gallery
 - [ ] `inc/woocommerce/functions.php`:
-  - [ ] Alpine cart count sync via `wc_fragments_refreshed` + `Alpine.initTree()`
-  - [ ] Custom "Add to Cart" button with Alpine loading state & nonce verification
-- [ ] Self-host Alpine.js in `assets/dist/js/alpine.min.js` (NO CDN)
+- [ ] Implement Vanilla JS cart count sync via `added_to_cart` / `wc_fragments_refreshed` events
+- [ ] Custom "Add to Cart" button with Vanilla loading states & nonce verification
 - [ ] ✅ Compliance Gate: Theme works 100% when WooCommerce is deactivated
 
 ## 🧩 Phase 3: Elementor Compatibility & UI (Week 4)
@@ -52,10 +51,23 @@
 - [ ] Create `template-parts/header/elementor.php` + `footer/elementor.php`
 - [ ] Add `page-fullwidth.php` & `page-canvas.php` templates
 - [ ] Dequeue theme CSS in Elementor editor to prevent conflicts
-- [ ] Test Alpine re-init after Elementor AJAX render (`elementor/frontend/render`)
+- [ ] Test Vanilla JS re-init logic (if any) after Elementor AJAX render
 - [ ] ✅ Compliance Gate: Zero `!important` overrides. Tailwind scoped to `.site-content`/`.entry-content`
 
-## 🧪 Phase 4: WordPress.org Compliance & Validation (Week 5)
+## 🧱 Phase 4: Gutenberg & React Block Development (Week 5)
+- [ ] **Setup**: Configure `npm run build:blocks` using `@wordpress/scripts`.
+- [ ] **theme.json**: Define color palette matching Customizer CSS variables.
+- [ ] **First Block (Hero)**:
+  - [ ] Create `blocks/hero/block.json` with `viewScript`, `editorScript`, and `style`.
+  - [ ] Build React Edit component using `@wordpress/element`.
+  - [ ] Implement Save component for static frontend render.
+- [ ] **PHP Integration**:
+  - [ ] `inc/blocks/class-block-registrar.php` using `register_block_type_from_metadata()`.
+  - [ ] Enqueue block i18n via `wp_set_script_translations()`.
+- [ ] **Isolation Test**: Verify Alpine.js ignore rules on block wrappers and Tailwind scoping.
+- [ ] ✅ **Compliance Gate**: Block passes `npx @wordpress/scripts lint-js` and WordPress block validation.
+
+## 🧪 Phase 5: WordPress.org Compliance & Validation (Week 6)
 - [ ] Install & run `Theme Check` plugin → fix ALL `REQUIRED` errors
 - [ ] Enable `WP_DEBUG` + `WP_DEBUG_LOG` + `SCRIPT_DEBUG` → zero PHP notices
 - [ ] Verify `wp_add_inline_style()` used for ALL dynamic CSS (Customizer outputs)
@@ -65,11 +77,11 @@
 - [ ] Self-hosted assets audit: confirm zero `https://` CDN links in `dist/`
 - [ ] ✅ Compliance Gate: Theme passes Theme Check with 0 errors, <5 warnings
 
-## 🚀 Phase 5: SVN Submission & Launch (Week 6)
-- [ ] Final `npm run build` → verify `dist/` contains hashed CSS/JS + manifest
+## 🚀 Phase 6: SVN Submission & Launch (Week 7)
+- [ ] Final `npm run build` + `npm run build:blocks` → verify `dist/` and `blocks/*/build/`
 - [ ] Prepare SVN `trunk/`:
-  - ✅ Include: `dist/`, `style.css`, `readme.txt`, `screenshot.png`, `functions.php`, `inc/`, `woocommerce/`, `template-parts/`, `languages/`, `fonts/`
-  - ❌ Exclude: `assets/src/`, `node_modules/`, `vendor/`, `.git/`, `vite.config.js`, `package.json`
+  - ✅ Include: `dist/`, `blocks/*/build/`, `blocks/*/block.json`, `theme.json`, `style.css`, `readme.txt`, `screenshot.png`, `functions.php`, `inc/`, `woocommerce/`, `template-parts/`, `languages/`, `fonts/`
+  - ❌ Exclude: `assets/src/`, `blocks/*/src/`, `node_modules/`, `vendor/`, `.git/`, `vite.config.js`, `package.json`
 - [ ] Checkout theme SVN: `svn checkout https://themes.svn.wordpress.org/loomy/`
 - [ ] Copy `trunk/` → `svn add trunk/*` → `svn commit -m "Initial Loomy v1.0.0 submission"`
 - [ ] Submit to https://themes.trac.wordpress.org/

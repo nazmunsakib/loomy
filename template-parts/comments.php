@@ -10,7 +10,7 @@ if ( post_password_required() ) {
 }
 ?>
 
-<section id="comments" class="comments-area mt-16 pt-16 border-t border-gray-100" x-data="{ loading: false, success: false }">
+<section id="comments" class="comments-area mt-16 pt-16 border-t border-gray-100">
 	<?php if ( have_comments() ) : ?>
 		<h3 class="text-2xl font-bold text-gray-900 mb-10">
 			<?php

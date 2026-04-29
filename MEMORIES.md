@@ -17,12 +17,15 @@
 | Layer | Technology | Version | WP.org Notes |
 |-------|-----------|---------|--------------|
 | **Backend** | WordPress + PHP | 6.5+ / 8.2+ | Strict types, PSR-12, GPL v2+, no global functions |
-| **Build** | Vite | 5.x | ✅ `dist/` MUST be committed to SVN. `assets/src/` is dev-only (gitignored). |
-| **CSS** | Tailwind CSS | 4.x | Final `dist/css/*.css` must be <2MB after purge. Use `@plugin "@tailwindcss/typography"`. |
-| **JS** | Alpine.js | 3.x | ✅ Self-hosted in `assets/dist/js/`. ❌ NO CDNs. Enqueue via `wp_enqueue_script()`. |
-| **Fonts** | System Fonts / Self-hosted WOFF2 | - | ❌ NO Google Fonts CDN. Self-host or delegate to plugins. |
-| **E-commerce** | WooCommerce | 9.x | ✅ Optional. Use `class_exists('WooCommerce')` checks everywhere. |
-| **Page Builder** | Elementor | 3.20+ | ✅ Optional. Use `defined('ELEMENTOR_PATH')` checks. |
+| **Blocks** | @wordpress/scripts | 28+ | Standard block build tool. ✅ Commit `build/` to SVN. |
+| **UI (Blocks)** | React (@wordpress/element) | 18.x | ❌ NO raw React/ReactDOM. ✅ Use WP-provided wrapper. |
+| **Config** | theme.json | V3 (WP 6.6) | Native styles + layout control. Maps to Customizer vars. |
+| **Build** | Vite | 5.x | ✅ `dist/` MUST be committed. `assets/src/` is dev-only. |
+| **CSS** | Tailwind CSS | 4.x | Final `dist/css/*.css` <2MB. Use `@plugin "@tailwindcss/typography"`. |
+| **JS** | Vanilla ES6+ | - | ✅ Zero dependencies. Native Event Delegation + Web APIs. |
+| **Fonts** | System Fonts / Self-hosted WOFF2 | - | ❌ NO Google Fonts CDN. |
+| **E-commerce** | WooCommerce | 9.x | ✅ Optional. Use `class_exists()` checks. |
+| **Page Builder** | Elementor | 3.20+ | ✅ Optional. Use `defined()` checks. |
 
 ---
 
@@ -31,27 +34,33 @@
 1234567891011121314151617181920212223242526272829
 loomy/
 ├── assets/
-│ ├── src/ # Dev only (gitignored, NOT for SVN)
-│ └── dist/ # ✅ MUST BE COMMITTED TO SVN
-│ ├── css/ # Compiled Tailwind CSS (purged, <2MB)
-│ └── js/ # Alpine.js (self-hosted) + theme scripts
-├── fonts/ # ✅ Self-hosted WOFF2 files (if any)
+│   ├── src/                 # Dev only (gitignored, NOT for SVN)
+│   └── dist/                # ✅ MUST BE COMMITTED TO SVN
+│       ├── css/             # Compiled Tailwind CSS (purged, <2MB)
+│       └── js/              # Alpine.js (self-hosted) + theme scripts
+├── blocks/                  # Custom React blocks
+│   └── [block-name]/
+│       ├── src/             # Dev only (gitignored)
+│       ├── build/           # ✅ MUST BE COMMITTED TO SVN
+│       └── block.json       # Metadata + i18n
+├── fonts/                   # ✅ Self-hosted WOFF2 files
 ├── inc/
-│ ├── class-customizer.php # WP.org approved settings (Customizer only)
-│ ├── class-enqueue.php # Local assets only, conditional loading, wp_add_inline_style()
-│ ├── class-theme-setup.php # add_theme_support, image sizes, cleanups
-│ ├── woocommerce/ # hooks.php, functions.php (wrapped in class_exists checks)
-│ └── elementor/ # class-manager.php, widgets/ (wrapped in defined checks)
-├── woocommerce/ # Optional template overrides
-├── template-parts/ # header/, footer/, components/, content*.php
-├── languages/ # .pot file for translations
-├── composer.json # PSR-4: "Loomy\": "inc/" (dev only)
-├── package.json # Dev dependencies only (not for SVN)
-├── vite.config.js # Dev only (not for SVN)
-├── functions.php # Bootstrap only: require composer + inc/
-├── style.css # WP header + GPL license declaration
-├── readme.txt # ✅ Required for WP.org (standard format)
-└── screenshot.png # ✅ 1200x900 PNG, sRGB
+│   ├── class-customizer.php # WP.org approved settings
+│   ├── class-enqueue.php    # Local assets, Vite manifest
+│   ├── class-theme-setup.php # add_theme_support, theme.json config
+│   ├── blocks/              # Block registration logic
+│   ├── woocommerce/         # WC integration
+│   └── elementor/           # Elementor widgets
+├── woocommerce/             # Template overrides
+├── theme.json               # ✅ Native Block Editor config
+├── template-parts/          # header/, footer/, content*.php
+├── languages/               # .pot file for translations
+├── composer.json            # PSR-4: "Loomy\": "inc/"
+├── package.json             # Dev dependencies
+├── functions.php            # Bootstrap: require composer + inc/
+├── style.css                # WP header + GPL license
+├── readme.txt               # ✅ Required for WP.org
+└── screenshot.png           # ✅ 1200x900 PNG
 
 
 ---
@@ -112,6 +121,12 @@ Text domain 'loomy' must be used in ALL translation functions
 
 
 🔑 Critical Patterns
+### Block Architecture (React + Isolation)
+- **Build Separation**: Vite handles theme assets (`assets/`); `@wordpress/scripts` handles blocks (`blocks/`). Never mix.
+- **Alpine/React Isolation**: Alpine.js `x-data` MUST NEVER touch `.wp-block-*` DOM elements to prevent React reconciliation errors.
+- **Tailwind Editor Scoping**: Tailwind `preflight: false` is mandatory. CSS in `block.json` is scoped via `.editor-styles-wrapper`.
+- **theme.json ↔ Customizer**: `settings.color.palette` in `theme.json` must map to Customizer CSS variables (e.g., `var(--loomy-primary)`).
+
 Asset Loading
 
 Vite manifest → class-enqueue.php → wp_enqueue_* + wp_add_inline_style()
@@ -121,50 +136,40 @@ Map development paths → production hashed filenames
 Prefix all handles with loomy-: wp_enqueue_style('loomy-style', ...)
 Add defer strategy for JS: wp_script_add_data('loomy-scripts', 'strategy', 'defer')
 Conditional loading: is_woocommerce(), elementor-editor, frontend-only
-Alpine.js Init + AJAX Re-init
-
-import Alpine from 'alpinejs';
-Alpine.start();
-
-// Re-init after dynamic content for Loomy:
-document.addEventListener('elementor/frontend/render', () => Alpine.initTree(document));
-document.addEventListener('wc_fragments_refreshed', () => Alpine.initTree(document.querySelector('.cart-fragments')));
-document.addEventListener('loaded_cart_fragments', () => Alpine.initTree(document));
+### Vanilla UI Architecture
+- **Event Delegation**: Use a single `DOMContentLoaded` listener. Attach event listeners to the body or main containers to handle dynamic content (WooCommerce AJAX/Elementor).
+- **Native Web APIs**: Use `IntersectionObserver` for lazy effects, `fetch()` for AJAX, and `<dialog>` for modals.
+- **State via DOM**: Manage UI state using `data-attributes` and `aria-*` states rather than a JS state object.
 
 Tailwind Scoping (Prevent Admin/Editor Breakage)
 /* assets/src/css/main.css */
 @layer base {
   body:not(.elementor-editor-active):not(.wp-admin) {
     @apply antialiased text-gray-900;
-    /* Only apply resets to Loomy frontend */
   }
 }
 
 Elementor Safety
-Dequeue theme CSS in editor: add_action('elementor/editor/before_enqueue_scripts', fn() => wp_dequeue_style('loomy-style'))
-Use x-ignore on dynamic Elementor widgets that conflict with Alpine
-Scope custom styles to .site-content, .entry-content, not global body
-WooCommerce Integration
-Override only templates you customize in /woocommerce/
-Use hooks/filters first (inc/woocommerce/hooks.php), templates second
-Wrap all WC code in if (class_exists('WooCommerce'))
-Dynamic Settings (Customizer → CSS Vars)
+- Dequeue theme CSS in editor: `add_action('elementor/editor/before_enqueue_scripts', ...)`
+- Scope custom styles to `.site-content`, `.entry-content`, not global body
 
+WooCommerce Integration
+- Override only templates you customize in `/woocommerce/`
+- Use hooks/filters first (`inc/woocommerce/hooks.php`), templates second
+- Wrap all WC code in `if (class_exists('WooCommerce'))`
+
+Dynamic Settings (Customizer → CSS Vars)
 Customizer UI → get_theme_mod() → :root CSS vars → wp_add_inline_style() → Tailwind @theme static
 
-Limit to 5-7 core settings (brand color, heading font, base font size)
-Output via wp_add_inline_style('loomy-style', $css) in wp_enqueue_scripts
-Map in tailwind.config.js: colors: { brand: 'var(--loomy-primary)' }
-
-### Dynamic Search Interaction (Alpine.js)
-- **Pattern**: Localized Dropdown with Close Button
-- **Trigger**: `header.php` → `x-data="{ searchOpen: false }"`
+### Dynamic Search Interaction (Vanilla JS)
+- **Pattern**: External Script with Event Delegation
+- **Trigger**: `header.php` → `data-loomy-toggle="search"`
 - **Interaction**: 
-    - Toggle via header icon (`@click="searchOpen = !searchOpen"`)
-    - Auto-close via click-away (`@click.away="searchOpen = false"`)
-    - Manual close via "X" button inside dropdown
-- **Visuals**: `backdrop-blur-md` for overlay (if used), `shadow-2xl` + `rounded-3xl` for dropdown.
-- **WP.org**: Uses `get_search_form()` for accessibility and hook compliance.
+    - `document.addEventListener('click', ...)` checks for the toggle.
+    - Manages `aria-expanded` and `classList.toggle('active')`.
+    - Auto-focus on input using `element.focus()`.
+- **Visuals**: `backdrop-blur-md` for overlay, `shadow-2xl` for dropdown.
+- **WP.org**: Fully externalized, zero inline handlers.
 
 ### Modular Customizer Logic
 - **Pattern**: `inc/Customizer.php` using a static `register` method.
@@ -173,18 +178,18 @@ Map in tailwind.config.js: colors: { brand: 'var(--loomy-primary)' }
 - **Dynamic CSS Integration**: Customizer values → `Dynamic_CSS::get_theme_css()` → `:root` variables → `wp_add_inline_style()`.
 
 📜 WordPress.org Compliance Rules (NON-NEGOTIABLE)
-No External CDNs: All JS/CSS/fonts must be bundled locally in dist/ or fonts/. Zero https:// in enqueued URLs.
-Dynamic CSS: Use wp_add_inline_style() instead of raw <style> tags in <head>.
-Optional Dependencies: Theme must work 100% standalone. WC/Elementor are enhancements, not requirements. Wrap all optional code in class_exists() / defined() checks.
-Sanitization/Escaping: sanitize_*() on ALL input, esc_*() on ALL output. Zero exceptions. Use wp_kses_post() for post content.
-Text Domain: 'loomy' in all __(), _e(), _n(), esc_html__(), _x() calls.
-Theme Check: Must pass with 0 REQUIRED errors, minimal RECOMMENDED warnings. Run before every SVN commit.
-Debug Mode: Zero PHP notices/warnings/errors with WP_DEBUG and WP_DEBUG_LOG enabled.
-No Plugin Territory: No shortcodes, CPTs, taxonomies, custom post meta UI, or settings that belong in a plugin.
-Customizer Only: Settings UI via customize_register. No custom admin pages or options panels.
-GPL License: All code/assets must be GPL v2+ compatible. No MIT-only JS libs without dual-license confirmation.
-Accessibility: Semantic HTML5, ARIA labels where needed, keyboard navigation, focus states, prefers-reduced-motion support.
-Performance: Final CSS <2MB, JS deferred, images lazy-loaded, no render-blocking resources.
+- **No External CDNs**: All JS/CSS/fonts must be bundled locally. Zero `https://` in enqueued URLs.
+- **Dynamic CSS**: Use `wp_add_inline_style()` instead of raw `<style>` tags.
+- **Self-hosted React**: Use `@wordpress/element` (provided by WP core). ❌ NO raw `react/react-dom`.
+- **Block Registration**: Use `register_block_type_from_metadata()` in PHP.
+- **Block i18n**: Use `wp_set_script_translations()` for every block script handle.
+- **Sanitization/Escaping**: `sanitize_*()` on ALL input, `esc_*()` on ALL output. Zero exceptions.
+- **Text Domain**: 'loomy' in all translation functions.
+- **Theme Check**: Must pass with 0 REQUIRED errors.
+- **No Plugin Territory**: No CPTs, shortcodes, or cross-theme reusable blocks.
+- **Customizer Only**: Settings UI via `customize_register`. No admin pages.
+- **GPL License**: All code/assets must be GPL v2+ compatible.
+
 
 ## 🚫 Hard Avoids
 - ❌ No jQuery (unless WC core requires it)
@@ -201,12 +206,11 @@ Performance: Final CSS <2MB, JS deferred, images lazy-loaded, no render-blocking
 + ❌ No skipping `Theme Check` validation before SVN commit
 
 ## 📦 SVN Submission Workflow
-1. **Build**: `npm run build` → generates `dist/` with hashed assets
-2. **Validate**: Run `Theme Check` plugin → fix all `REQUIRED` errors
-3. **Test**: Enable `WP_DEBUG` + `SCRIPT_DEBUG` → zero PHP notices
-4. **Commit to SVN**:
-   - ✅ Include: `dist/`, `style.css`, `readme.txt`, `screenshot.png`, `functions.php`, `inc/`, `woocommerce/`, `template-parts/`, `fonts/`
-   - ❌ Exclude: `assets/src/`, `node_modules/`, `vendor/`, `.git/`, `vite.config.js`, `package.json`, `composer.json`
+1. **Build**: `npm run build` (Vite) + `npm run build:blocks` (@wordpress/scripts).
+2. **Validate**: Run `Theme Check` plugin + `npx @wordpress/scripts lint-js`.
+3. **Commit to SVN**:
+   - ✅ Include: `dist/`, `blocks/*/build/`, `blocks/*/block.json`, `theme.json`, `style.css`, `readme.txt`, `screenshot.png`, `functions.php`, `inc/`, `woocommerce/`, `template-parts/`, `fonts/`
+   - ❌ Exclude: `assets/src/`, `blocks/*/src/`, `node_modules/`, `vendor/`, `.git/`, `vite.config.js`, `package.json`, `composer.json`
 5. **Submit**: Upload to https://themes.trac.wordpress.org/ → respond to review tickets point-by-point
 
 

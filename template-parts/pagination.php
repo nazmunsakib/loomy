@@ -42,27 +42,12 @@ if ( ! $pagination ) {
 </nav>
 
 <!-- Scroll to Top Button -->
-<div x-data="{ 
-		show: false,
-		scrollToTop() {
-			window.scrollTo({ top: 0, behavior: 'smooth' });
-		}
-	}"
-	x-init="window.addEventListener('scroll', () => { show = window.scrollY > 500 })"
-	class="fixed bottom-8 right-8 z-50">
-	
+<div id="scroll-to-top-container" class="fixed bottom-8 right-8 z-50">
 	<button 
-		x-show="show"
-		x-transition:enter="transition ease-out duration-300"
-		x-transition:enter-start="opacity-0 translate-y-10"
-		x-transition:enter-end="opacity-100 translate-y-0"
-		x-transition:leave="transition ease-in duration-300"
-		x-transition:leave-start="opacity-100 translate-y-0"
-		x-transition:leave-end="opacity-0 translate-y-10"
-		@click="scrollToTop()"
-		class="bg-secondary text-white p-3 rounded-full shadow-lg hover:brightness-110 hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-secondary/10"
-		aria-label="<?php esc_attr_e( 'Scroll to top', 'loomy' ); ?>">
-		
+		id="scroll-to-top"
+		class="bg-secondary text-white p-3 rounded-full shadow-lg hover:brightness-110 hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-secondary/10 hidden [&.visible]:block"
+		aria-label="<?php esc_attr_e( 'Scroll to top', 'loomy' ); ?>"
+	>
 		<?php echo loomy_icon( 'arrow-up', 'h-6 w-6' ); ?>
 	</button>
 </div>

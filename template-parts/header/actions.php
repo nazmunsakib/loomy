@@ -8,7 +8,9 @@
 
 <div class="relative flex items-center h-full">
 	<button 
-		@click="searchOpen = !searchOpen" 
+		data-loomy-toggle="search"
+		aria-controls="search-overlay"
+		aria-expanded="false"
 		class="text-gray-600 hover:text-primary transition-colors p-2" 
 		aria-label="<?php esc_attr_e( 'Search', 'loomy' ); ?>"
 	>
@@ -17,15 +19,10 @@
 
 	<!-- Search Dropdown -->
 	<div 
-		x-show="searchOpen" 
-		@click.away="searchOpen = false"
-		x-transition:enter="transition ease-out duration-200"
-		x-transition:enter-start="opacity-0 translate-y-2 scale-95"
-		x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-		class="absolute top-full right-0 mt-4 w-[28rem] bg-white rounded-3xl shadow-2xl border border-gray-100 p-6 z-[110]"
-		style="display: none;"
+		id="search-overlay"
+		class="absolute top-full right-0 mt-4 w-[28rem] bg-white rounded-3xl shadow-2xl border border-gray-100 p-6 z-[110] hidden [&.active]:block"
 	>
-		<button @click="searchOpen = false" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition-colors p-1">
+		<button data-loomy-toggle="search" aria-controls="search-overlay" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition-colors p-1">
 			<?php echo loomy_icon( 'close', 'h-4 w-4' ); ?>
 		</button>
 		<div class="mt-2">

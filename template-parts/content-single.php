@@ -35,15 +35,14 @@ $reading_time = \Loomy\Post_Helpers::get_reading_time( get_the_content() );
 				</div>
 			</div>
 
-			<div class="flex items-center gap-2" x-data="{ copied: false }">
+			<div class="flex items-center gap-2">
 				<button 
-					@click="if (navigator.clipboard) { navigator.clipboard.writeText(window.location.href); copied = true; setTimeout(() => copied = false, 2000) }"
+					id="copy-link-button"
 					class="p-2 text-gray-400 hover:text-primary transition-colors relative"
-					:class="copied ? 'text-green-500' : ''"
 					aria-label="<?php esc_attr_e( 'Copy link', 'loomy' ); ?>"
 				>
 					<?php echo loomy_icon( 'copy', 'h-5 w-5' ); ?>
-					<span x-show="copied" x-transition class="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded whitespace-nowrap">
+					<span id="copy-success-badge" class="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-200">
 						<?php esc_html_e( 'Link Copied!', 'loomy' ); ?>
 					</span>
 				</button>
@@ -58,8 +57,7 @@ $reading_time = \Loomy\Post_Helpers::get_reading_time( get_the_content() );
 	</header>
 
 	<!-- Content Area -->
-	<div class="post-content prose prose-lg md:prose-xl max-w-none prose-headings:font-black prose-headings:text-gray-900 prose-a:text-primary hover:prose-a:opacity-80 prose-img:rounded-3xl prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-primary/5 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:italic"
-		 x-data>
+	<div class="post-content prose prose-lg md:prose-xl max-w-none prose-headings:font-black prose-headings:text-gray-900 prose-a:text-primary hover:prose-a:opacity-80 prose-img:rounded-3xl prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-primary/5 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:italic">
 		<?php the_content(); ?>
 	</div>
 

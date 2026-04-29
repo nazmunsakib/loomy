@@ -1,15 +1,48 @@
-import Alpine from 'alpinejs';
-import collapse from '@alpinejs/collapse';
-import intersect from '@alpinejs/intersect';
-import blogSidebar from './modules/blog-sidebar';
+/**
+ * Loomy Core UI
+ * Vanilla ES6+ Event Delegation Pattern
+ */
 
-// Register plugins
-Alpine.plugin(collapse);
-Alpine.plugin(intersect);
+document.addEventListener('DOMContentLoaded', () => {
+    // --- UI Interactions ---
 
-// Register modules
-Alpine.data('blogSidebar', blogSidebar);
+    // Search Toggle Handler
+    document.addEventListener('click', (e) => {
+        const toggle = e.target.closest('[data-loomy-toggle="search"]');
+        if (!toggle) return;
 
-Alpine.start();
-document.addEventListener('elementor/frontend/render', () => Alpine.initTree(document));
-document.addEventListener('wc_fragments_refreshed', () => Alpine.initTree(document));
+        e.preventDefault();
+        const targetId = toggle.getAttribute('aria-controls') || 'search-overlay';
+        const target = document.getElementById(targetId);
+        
+        if (target) {
+            const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', !isExpanded);
+            target.classList.toggle('active');
+            
+            if (!isExpanded) {
+                const input = target.querySelector('input');
+                if (input) input.focus();
+            }
+        }
+    });
+
+    // --- Third-Party Integration Hooks ---
+
+    // Elementor AJAX Support
+    document.addEventListener('elementor/frontend/render', (event) => {
+        // Re-init specific Vanilla modules here if needed
+        console.log('Elementor content rendered:', event.detail.element);
+    });
+
+    // WooCommerce AJAX Support
+    document.addEventListener('wc_fragments_refreshed', () => {
+        console.log('WooCommerce fragments refreshed');
+    });
+
+    document.addEventListener('added_to_cart', (e, fragments) => {
+        if (fragments) {
+            // Update cart count or other UI elements
+        }
+    });
+});
