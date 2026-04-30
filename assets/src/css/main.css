@@ -74,3 +74,29 @@
   }
 }
 
+/* --- Loomy GSAP Integration --- */
+
+/* 1. CLS Prevention: Hide elements before GSAP initializes */
+.loomy-animate-on-scroll {
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+/* 2. Editor Isolation: Ensure content is visible in Gutenberg */
+.block-editor-iframe__body .loomy-animate-on-scroll,
+.wp-admin .loomy-animate-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+    transition: none !important;
+}
+
+/* 3. Accessibility: Disable animations if reduced motion is active */
+@media (prefers-reduced-motion: reduce) {
+    .loomy-animate-on-scroll {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+

@@ -49,6 +49,9 @@ final class Enqueue {
 	 * @return void
 	 */
 	public function register_assets(): void {
+		// Enqueue GSAP Core.
+		$this->enqueue_gsap_core();
+
 		// Handle Vite Development Mode.
 		if ( $this->is_dev() ) {
 			$this->enqueue_dev_assets();
@@ -71,7 +74,7 @@ final class Enqueue {
 		wp_enqueue_script( 'loomy-vite-client', "{$vite_server}/@vite/client", array(), null, true );
 
 		// Main JS entry.
-		wp_enqueue_script( 'loomy-main', "{$vite_server}/assets/src/js/main.js", array( 'jquery' ), null, true );
+		wp_enqueue_script( 'loomy-main', "{$vite_server}/assets/src/js/main.js", array( 'jquery', 'gsap-core' ), null, true );
 
 		// Main CSS entry.
 		wp_enqueue_style( 'loomy-style', "{$vite_server}/assets/src/css/main.css", array(), null );
@@ -114,7 +117,7 @@ final class Enqueue {
 			$js_path = "{$this->dist_path}/{$js_file}";
 			$version = file_exists( $js_path ) ? (string) filemtime( $js_path ) : '1.0.0';
 
-			wp_enqueue_script( 'loomy-main', "{$this->dist_uri}/{$js_file}", array( 'jquery' ), $version, true );
+			wp_enqueue_script( 'loomy-main', "{$this->dist_uri}/{$js_file}", array( 'jquery', 'gsap-core' ), $version, true );
 
 			// Add type="module" for production build.
 			add_filter(
@@ -138,6 +141,28 @@ final class Enqueue {
 
 			wp_enqueue_style( 'loomy-style', "{$this->dist_uri}/{$css_file}", array(), $version );
 		}
+	}
+
+	/**
+	 * Enqueue GSAP Core (Self-Hosted).
+	 *
+	 * @return void
+	 */
+	private function enqueue_gsap_core(): void {
+		if ( is_admin() || is_customize_preview() ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'gsap-core',
+			get_template_directory_uri() . '/assets/dist/js/gsap.min.js',
+			array(),
+			'3.12.5',
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
+		);
 	}
 
 	/**

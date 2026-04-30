@@ -3,6 +3,8 @@
  * Vanilla ES6+ Event Delegation Pattern
  */
 
+import './animations.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     // --- UI Interactions ---
 
