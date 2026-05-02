@@ -1,0 +1,51 @@
+{
+    "apiVersion": 2,
+    "name": "loomy/hero",
+    "title": "Loomy Premium Hero",
+    "category": "text",
+    "icon": "cover-image",
+    "description": "A professional hero section with GSAP animations, background image, and call-to-action buttons.",
+    "attributes": {
+        "title": {
+            "type": "string",
+            "default": "Elevate Your Digital Experience"
+        },
+        "description": {
+            "type": "string",
+            "default": "We build high-performance web applications with cutting-edge technologies."
+        },
+        "bgImageId": {
+            "type": "number"
+        },
+        "bgImageUrl": {
+            "type": "string"
+        },
+        "primaryBtnText": {
+            "type": "string",
+            "default": "Get Started"
+        },
+        "primaryBtnLink": {
+            "type": "string",
+            "default": "#"
+        },
+        "secondaryBtnText": {
+            "type": "string",
+            "default": "View Projects"
+        },
+        "secondaryBtnLink": {
+            "type": "string",
+            "default": "#"
+        },
+        "alignment": {
+            "type": "string",
+            "default": "center"
+        }
+    },
+    "supports": {
+        "align": ["wide", "full"],
+        "html": false
+    },
+    "editorScript": "file:./build/index.js",
+    "viewScript": "file:./build/view.js",
+    "style": "file:./style.css"
+}

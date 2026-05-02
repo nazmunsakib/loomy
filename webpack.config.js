@@ -4,9 +4,11 @@ const glob = require('glob');
 
 const entries = {};
 
-glob.sync('./blocks/*/src/index.js').forEach((file) => {
-    const blockName = file.match(/blocks\/(.*)\/src\/index.js/)[1];
-    entries[blockName] = path.resolve(__dirname, file);
+glob.sync('./blocks/*/src/{index,view}.js').forEach((file) => {
+    const match = file.match(/blocks\/(.*)\/src\/(index|view)\.js/);
+    const blockName = match[1];
+    const type = match[2];
+    entries[`${blockName}/build/${type}`] = path.resolve(__dirname, file);
 });
 
 module.exports = {
@@ -14,6 +16,6 @@ module.exports = {
     entry: entries,
     output: {
         path: path.resolve(__dirname, 'blocks'),
-        filename: '[name]/build/index.js',
+        filename: '[name].js',
     },
 };
