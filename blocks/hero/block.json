@@ -39,6 +39,54 @@
         "alignment": {
             "type": "string",
             "default": "center"
+        },
+        "overlayOpacity": {
+            "type": "number",
+            "default": 70
+        },
+        "overlayColor": {
+            "type": "string",
+            "default": "#000000"
+        },
+        "paddingTop": {
+            "type": "number",
+            "default": 100
+        },
+        "paddingBottom": {
+            "type": "number",
+            "default": 100
+        },
+        "contentMaxWidth": {
+            "type": "number",
+            "default": 1000
+        },
+        "titleFontSize": {
+            "type": "number",
+            "default": 80
+        },
+        "titleColor": {
+            "type": "string",
+            "default": "#ffffff"
+        },
+        "descriptionColor": {
+            "type": "string",
+            "default": "#d1d5db"
+        },
+        "primaryBtnBgColor": {
+            "type": "string",
+            "default": "#ffffff"
+        },
+        "primaryBtnTextColor": {
+            "type": "string",
+            "default": "#000000"
+        },
+        "secondaryBtnBgColor": {
+            "type": "string",
+            "default": "transparent"
+        },
+        "secondaryBtnTextColor": {
+            "type": "string",
+            "default": "#ffffff"
         }
     },
     "supports": {

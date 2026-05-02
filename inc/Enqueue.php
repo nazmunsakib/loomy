@@ -41,6 +41,7 @@ final class Enqueue {
 		$this->dist_uri  = get_template_directory_uri() . '/dist';
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'register_editor_assets' ) );
 	}
 
 	/**
@@ -140,6 +141,35 @@ final class Enqueue {
 			$version  = file_exists( $css_path ) ? (string) filemtime( $css_path ) : '1.0.0';
 
 			wp_enqueue_style( 'loomy-style', "{$this->dist_uri}/{$css_file}", array(), $version );
+		}
+	}
+
+	/**
+	 * Register and enqueue editor-only assets.
+	 *
+	 * @return void
+	 */
+	public function register_editor_assets(): void {
+		// Handle Vite Development Mode.
+		if ( $this->is_dev() ) {
+			$vite_server = 'http://localhost:5173';
+			wp_enqueue_style( 'loomy-editor-style', "{$vite_server}/assets/src/css/main.css", array(), null );
+			return;
+		}
+
+		// Handle Production Mode (Manifest).
+		$manifest_path = get_theme_file_path( 'dist/.vite/manifest.json' );
+		if ( ! file_exists( $manifest_path ) ) {
+			return;
+		}
+
+		$manifest = json_decode( file_get_contents( $manifest_path ), true );
+		if ( isset( $manifest['assets/src/css/main.css'] ) ) {
+			$css_file = $manifest['assets/src/css/main.css']['file'];
+			$css_path = "{$this->dist_path}/{$css_file}";
+			$version  = file_exists( $css_path ) ? (string) filemtime( $css_path ) : '1.0.0';
+
+			wp_enqueue_style( 'loomy-editor-style', "{$this->dist_uri}/{$css_file}", array(), $version );
 		}
 	}
 
