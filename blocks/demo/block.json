@@ -1,0 +1,18 @@
+{
+    "apiVersion": 2,
+    "name": "loomy/demo",
+    "title": "Loomy Demo Block",
+    "category": "text",
+    "icon": "cover-image",
+    "attributes": {
+        "title": {
+            "type": "string",
+            "default": "Demo Title"
+        },
+        "subtitle": {
+            "type": "string",
+            "default": "Demo subtitle text"
+        }
+    },
+    "editorScript": "file:./build/index.js"
+}

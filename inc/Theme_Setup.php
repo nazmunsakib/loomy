@@ -29,6 +29,24 @@ final class Theme_Setup {
 		add_action( 'init', array( $this, 'cleanup_head' ) );
 		add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
 		add_filter( 'the_content', array( '\Loomy\Post_Helpers', 'add_ids_to_headings' ) );
+		add_action( 'init', array( $this, 'register_blocks' ) );
+	}
+
+	/**
+	 * Register blocks.
+	 *
+	 * @return void
+	 */
+	public function register_blocks(): void {
+		$blocks_dir = get_template_directory() . '/blocks';
+
+		foreach ( glob( $blocks_dir . '/*' ) as $block ) {
+			$block_json = $block . '/block.json';
+
+			if ( file_exists( $block_json ) ) {
+				register_block_type( $block_json );
+			}
+		}
 	}
 
 	/**
