@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@source "../../**/*.php";
+@source "../../blocks/**/*.{js,jsx}";
 
 @theme {
   /* Colors */

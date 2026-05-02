@@ -1,11 +1,15 @@
 {
   "name": "loomy",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "vite",
     "start": "wp-scripts start",
-    "build": "wp-scripts build",
+    "build:blocks": "wp-scripts build",
+    "build:css": "vite build",
+    "build": "npm run build:blocks && npm run build:css",
     "lint:js": "wp-scripts lint-js",
     "format": "wp-scripts format"
   },
