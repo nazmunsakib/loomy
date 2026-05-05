@@ -18,9 +18,14 @@ if ( ! in_array( $header_layout, array( 'header-1', 'header-2', 'header-3' ), tr
 
 $header_sticky = get_theme_mod( 'loomy_header_sticky', true );
 $header_class  = $header_sticky ? 'sticky top-0 z-50' : 'relative';
+
+// Header-2 floats as a pill — outer wrapper must be transparent.
+$header_bar_class = ( 'header-2' === $header_layout )
+	? 'py-4 bg-transparent'
+	: 'py-4 bg-white border-b border-gray-100';
 ?>
 
-<header id="masthead" class="site-header py-4 bg-white border-b border-gray-100 <?php echo esc_attr( $header_class ); ?>" role="banner">
+<header id="masthead" class="site-header <?php echo esc_attr( $header_bar_class . ' ' . $header_class ); ?>" role="banner">
 	<div class="container relative">
 		<?php get_template_part( 'template-parts/header/' . $header_layout ); ?>
 	</div>

@@ -17,14 +17,14 @@
 		<?php endif; ?>
 	</div>
 
-	<nav id="site-navigation" class="main-navigation hidden md:flex grow justify-center">
+	<nav id="site-navigation" class="main-navigation hidden md:flex flex-1 items-center justify-center">
 		<?php
 		wp_nav_menu(
 			array(
 				'theme_location' => 'primary',
 				'menu_id'        => 'primary-menu-3',
-				'container'      => false,
-				'menu_class'     => 'flex space-x-8 text-sm font-medium text-gray-500 hover:text-primary transition-colors',
+				'container'      => 'ul',
+				'menu_class'     => 'flex items-center gap-8 text-sm font-medium text-gray-500',
 			)
 		);
 		?>

@@ -27,7 +27,7 @@
     @apply antialiased text-gray-900;
   }
 
-  .current-menu-item > a {
+  .current-menu-item>a {
     @apply text-primary font-bold;
   }
 
@@ -45,7 +45,9 @@
   }
 
   /* Global Button Defaults */
-  .btn, .button, input[type="submit"] {
+  .btn,
+  .button,
+  input[type="submit"] {
     @apply inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-bold rounded-xl hover:shadow-lg hover:brightness-110 transition-all duration-300 border-none cursor-pointer;
   }
 
@@ -53,6 +55,34 @@
     @apply bg-secondary;
   }
 }
+
+@layer components {
+  /* ── Header Navigation ───────────────────────────── */
+
+  .main-navigation ul li {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .main-navigation ul li a {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgb(107 114 128);
+    /* gray-500 */
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .main-navigation ul li a:hover,
+  .main-navigation ul li.current-menu-item>a,
+  .main-navigation ul li.current-page-ancestor>a {
+    color: var(--loomy-primary);
+    opacity: 1;
+  }
+}
+
 
 
 @layer utilities {
@@ -65,7 +95,10 @@
   html {
     scroll-behavior: auto !important;
   }
-  *, ::before, ::after {
+
+  *,
+  ::before,
+  ::after {
     animation-delay: -1ms !important;
     animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
@@ -80,25 +113,24 @@
 
 /* 1. CLS Prevention: Hide elements before GSAP initializes */
 .loomy-animate-on-scroll {
-    opacity: 0;
-    will-change: transform, opacity;
+  opacity: 0;
+  will-change: transform, opacity;
 }
 
 /* 2. Editor Isolation: Ensure content is visible in Gutenberg */
 .block-editor-iframe__body .loomy-animate-on-scroll,
 .wp-admin .loomy-animate-on-scroll {
-    opacity: 1 !important;
-    transform: none !important;
-    visibility: visible !important;
-    transition: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  transition: none !important;
 }
 
 /* 3. Accessibility: Disable animations if reduced motion is active */
 @media (prefers-reduced-motion: reduce) {
-    .loomy-animate-on-scroll {
-        opacity: 1 !important;
-        transform: none !important;
-        transition: none !important;
-    }
+  .loomy-animate-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
-

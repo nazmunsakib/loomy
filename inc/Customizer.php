@@ -28,11 +28,15 @@ final class Customizer {
 
 		$this->add_setting( $wp_customize, 'loomy_header_layout', 'header-3', 'sanitize_text_field', 'loomy_header', esc_html__( 'Header Style', 'loomy' ), 'select', array(
 			'header-1' => esc_html__( 'Header One (Logo Left, Menu Left)', 'loomy' ),
-			'header-2' => esc_html__( 'Header Two (Centered Logo & Menu)', 'loomy' ),
+			'header-2' => esc_html__( 'Header Two (Floating Pill — Logo Left, Nav Center, CTA Right)', 'loomy' ),
 			'header-3' => esc_html__( 'Header Three (Logo Left, Menu Center)', 'loomy' ),
 		) );
 
 		$this->add_setting( $wp_customize, 'loomy_header_sticky', true, 'rest_sanitize_boolean', 'loomy_header', esc_html__( 'Sticky Header', 'loomy' ), 'checkbox' );
+
+		// Header Two — CTA button.
+		$this->add_setting( $wp_customize, 'loomy_header_cta_label', __( 'Book a Meeting', 'loomy' ), 'sanitize_text_field', 'loomy_header', esc_html__( 'CTA Button Label (Header Two)', 'loomy' ) );
+		$this->add_setting( $wp_customize, 'loomy_header_cta_url', '#', 'esc_url_raw', 'loomy_header', esc_html__( 'CTA Button URL (Header Two)', 'loomy' ) );
 
 		// 2. Blog Section.
 		$wp_customize->add_section( 'loomy_blog', array(
